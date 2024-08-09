@@ -1,3 +1,22 @@
+# MacOS related
+.DS_Store
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+._*
+
+# Visual Studio Code related
+.vscode/
+*.code-workspace
+.history/
+.vscode-server/
+.vscode-test/
+
+# IDE preferences
+*.iml
+.idea/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
