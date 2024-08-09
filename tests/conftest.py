@@ -1,6 +1,6 @@
 from pathlib import Path
 
-import ro_crate_plugin
+import plugin_python_template
 import pytest
 from stencila_plugin.testing import HttpHarness, StdioHarness
 
@@ -8,7 +8,7 @@ from stencila_plugin.testing import HttpHarness, StdioHarness
 @pytest.fixture()
 def plugin_path():
     """Provide the path to the plugin."""
-    path = Path(ro_crate_plugin.__file__).parent / "plugin.py"
+    path = Path(plugin_python_template.__file__).parent / "plugin.py"
     assert path.exists()
     return path
 

@@ -6,13 +6,13 @@ authors = [
 license = { text = "Apache" }
 requires-python = ">=3.10"
 dependencies = ["stencila-plugin>=2.0.0b3"]
-name = "ro-crate-plugin"
+name = "plugin-python-template"
 version = "0.1.0"
-description = "Stencila's plugin for RO-Crate, written in Python."
+description = "A Template Repo for Stencila Plugin in Python"
 readme = "README.md"
 
 [project.scripts]
-run_plugin = "ro_crate_plugin.plugin:run"
+run_plugin = "plugin_python_template.plugin:run"
 
 [tool.pdm]
 [tool.pdm.dev-dependencies]

@@ -1,6 +1,5 @@
-# Stencila's plugin for RO-Crate objects, written in Python.
+# Template for a Stencila Python Plugin
 
-// TO DO 
 This repository provides a starting point for writing a Stencila plugin in Python.
 It contains a standard python setup, including:
 

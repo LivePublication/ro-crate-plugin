@@ -1,8 +1,8 @@
-name = "ro-crate-plugin"
+name = "python-template"
 version = "0.1.0"
-description = "Stencila's RO-Crate plugin written in Python."
-home = "https://github.com/LivePublication/ro-crate-plugin"
-install = "git+https://github.com/LivePublication/ro-crate-plugin"
+description = "Template for Stencila plugin written in Python"
+home = "https://github.com/stencila/plugin-python-template"
+install = "git+https://github.com/stencila/plugin-python-template"
 runtime = "python>=3.10"
 transports = ["stdio", "http"]
 
