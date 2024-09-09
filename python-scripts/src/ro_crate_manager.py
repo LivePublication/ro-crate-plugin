@@ -1,6 +1,10 @@
 from rocrate.rocrate import ROCrate
 import os
 
+
+"""
+
+"""
 class ROCrateManager:
     def __init__(self, file_path=None):
         self.file_path = file_path

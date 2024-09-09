@@ -14,3 +14,12 @@ To use this repository as a starting point for your own plugin:
 - Change the folder name under `src` to your chosen name.
 - Update the `pyproject.toml` file to reflect your package name, description, and author.
 - Update the `tests/conftest.py` file to reflect the location of the plugin script.
+
+## Getting Started
+
+This explains how to run the RO-Crate Python
+
+## Helpful links
+
+1. https://github.com/crs4/rocrate-validator/
+2. https://github.com/ResearchObject/ro-crate-py

@@ -2,10 +2,14 @@
 authors = [
   { name = "Brett Calcott", email = "brett@dragonfly.co.nz" },
   { name = "Nokome Bentley", email = "nokome@stencila.io" },
+  { name = "Victoria Henderson", email = "vhe20@uclive.ac.nz" }
 ]
 license = { text = "Apache" }
 requires-python = ">=3.10"
-dependencies = ["stencila-plugin>=2.0.0b3"]
+dependencies = [
+    "stencila-plugin>=2.0.0b3",
+    "rocrate>=0.10.0",
+]
 name = "plugin-python-template"
 version = "0.1.0"
 description = "A Template Repo for Stencila Plugin in Python"
