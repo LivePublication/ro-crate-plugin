@@ -15,4 +15,31 @@ This file holds the logic for metadata extractiong and validation of the RO-Crat
 and version. It will also notify the user of any discrepancies (e.g., unrecognized type
 or invalid version)
 
+CHECK
+
 """
+import os
+import subprocess
+
+INSTALLATION_DIR = os.path.join(os.getcwd(), "rocrate-validator")
+INSTALLATION_CMD = ["poetry", "install"]
+USAGE = ["poetry", "run", "rocrate-validator", "<path_to_rocrate>"]
+HELP = ["poetry", "run", "rocrate-validator", "--help"]
+
+# this is essentially the validator (though it just passes them through
+# the rocrate-validator package)
+
+def setup():
+    # checking if the directory exists
+    if not os.path.isdir(INSTALLATION_DIR):
+        raise FileNotFoundError("The RO-Crate validator package does not exist.")
+    
+    os.chdir(INSTALLATION_DIR)
+    os.system("pwd")
+    
+    # installing the dependencies for the RO-Crate validator)
+    subprocess.run(["poetry", "install"], check=True)
+    
+setup()
+
+
