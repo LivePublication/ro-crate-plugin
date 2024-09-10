@@ -1,0 +1,3 @@
+[submodule "rocrate-validator"]
+	path = rocrate-validator
+	url = https://github.com/crs4/rocrate-validator.git
