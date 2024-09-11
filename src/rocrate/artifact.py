@@ -26,10 +26,20 @@ ROCRATES = ["ro-crate", "ro-crate-with-files", "ro-crate-with-computational-work
 
 # the path of the rocrate-validator package
 ROCRATE_VALIDATOR_DIR = os.path.join(os.getcwd(), "rocrate-validator")
-# commands available from the rocrate-validator package
-INSTALLATION_CMDS = ["poetry", "install"]
+
+# Commands available from the rocrate-validator package
+INSTALLATION_CMDS = ["poetry", "install"] # install the dependencies
+PROFILES = ["poetry", "run", "rocrate-validator", "profiles"] # manage profiles
 USAGE = ["poetry", "run", "rocrate-validator", "validate", "<path_to_rocrate>"] # default usage
-HELP = ["poetry", "run", "rocrate-validator", "--help"]
+
+
+# Options
+DEBUG = ["poetry", "run", "rocrate-validator", "--debug"] # debug
+VERSION = ["poetry", "run", "rocrate-validator", "--version", "-v"] # version
+ENABLE_INTERACTIVE_MODE = ["poetry", "run", "rocrate-validator", "--no-interactive", "-n"] # enable interactive mode
+DISABLE_INTERACTIVE_MODE = ["poetry", "run", "rocrate-validator", "--no-interactive", "-y"] # disable interactive mode
+DISABLE_COLOUR = ["poetry", "run", "rocrate-validator", "--disable-color"] # disable coloured output
+HELP = ["poetry", "run", "rocrate-validator", "--help"] #help
 
 
 # TODO make sure the setup is done only once and preferably in the setup.py file
@@ -58,8 +68,8 @@ def validate_rocrate(path_to_rocrate):
     
 
 # TODO uncomment the following lines and figure out how to call them when needed
-# setup()
-# get_help()
+setup()
+get_help()
 
 # TODO uncomment the following lines, put them in the tests dir
 # def test():
@@ -75,3 +85,4 @@ def validate_rocrate(path_to_rocrate):
 
 # TODO validate against all possible types and version + notification to user if not recognised 
 # (use the rocrate-validator package for this)
+
