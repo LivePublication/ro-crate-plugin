@@ -6,7 +6,7 @@ The plugin shall parse the metadata of the `ro-crate-metadata.json` file to extr
 - The plugin shall validate the version of the RO-Crate against a predefiend list of expected types.
 - The plugin shall notify the user if the RO-Crate type or version is not recognised.
 
-note: use the RO-Crate validator (slack)
+note: use the RO-Crate validator (Slack)
 
 This file holds the logic for metadata extractiong and validation of the RO-Crate type and version. It will also notify the 
 user of any discrepancies (e.g., unrecognized type or invalid version)
@@ -20,12 +20,14 @@ CHECK
 import os
 import subprocess
 
-# the path to the TEST ro-crate along with their names
-ROCRATE_DIR = os.path.join(os.getcwd(), "python-scripts/src/ro-crates")
-ROCRATES = ["ro-crate", "ro-crate-with-files", "ro-crate-with-computational-workflow", "ro-crate-with-images", "ro-crate-with-file-author-location", "ro-crate-with-web-resources"]
 
+# Paths and directories
+# the path to the TEST ro-crates along with their corresponding names
+ROCRATE_DIR = os.path.join(os.getcwd(), "python-scripts/src/ro-crates")
+ROCRATES = ["ro-crate", "ro-crate-invalid", "ro-crate-with-files", "ro-crate-with-computational-workflow", "ro-crate-with-images", "ro-crate-with-file-author-location", "ro-crate-with-web-resources"]
 # the path of the rocrate-validator package
 ROCRATE_VALIDATOR_DIR = os.path.join(os.getcwd(), "rocrate-validator")
+
 
 # Commands available from the rocrate-validator package
 INSTALLATION_CMDS = ["poetry", "install"] # install the dependencies
@@ -61,27 +63,32 @@ def get_help():
 
 def validate_rocrate(path_to_rocrate):
     """Validates the rocrate against the rocrate-validator package."""
-    # checking if the rocrate's path exists
-    # TODO make sure this is the right path or that the right path is provided at all times?
-    USAGE[-1] = path_to_rocrate
-    subprocess.run(USAGE, check=True)
+    if not os.path.exists(path_to_rocrate):
+        raise FileNotFoundError(f"The path {path_to_rocrate} does not exist.")
     
+    USAGE[-1] = path_to_rocrate
+    result = subprocess.run(USAGE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    USAGE[-1] = "<path_to_rocrate>"
+    
+    if result.returncode == 0:
+        print(f"The RO-Crate {path_to_rocrate} is valid.")
+    else:
+        print(f"The RO-Crate {path_to_rocrate} is invalid.")
+
 
 # TODO uncomment the following lines and figure out how to call them when needed
 setup()
 get_help()
 
 # TODO uncomment the following lines, put them in the tests dir
-# def test():
-#     for rocrate in ROCRATES:
-#         dir_path = os.path.join(ROCRATE_DIR, rocrate)
-#         if not os.path.isdir(dir_path):
-#             raise FileNotFoundError(f"The directory {dir_path} does not exist.")
-#         validate_rocrate(str(dir_path))
-        
-        
-# test()
+def test():
+    for rocrate in ROCRATES:
+        dir_path = os.path.join(ROCRATE_DIR, rocrate)
+        if not os.path.isdir(dir_path):
+            raise FileNotFoundError(f"The directory {dir_path} does not exist.")
+        validate_rocrate(str(dir_path))
 
+test()
 
 # TODO validate against all possible types and version + notification to user if not recognised 
 # (use the rocrate-validator package for this)

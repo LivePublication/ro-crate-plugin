@@ -57,3 +57,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# TODO make the scanner scan the entire directory of where you are, then store any folder's path that has an RO-Crate in it
+# (e.g. /ro-crate if /ro-crate has "ro-crate-metadata.json" in it then we store that path)
