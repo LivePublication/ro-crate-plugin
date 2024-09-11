@@ -20,14 +20,19 @@ CHECK
 import os
 import subprocess
 
+# the path to the TEST ro-crate along with their names
 ROCRATE_DIR = os.path.join(os.getcwd(), "python-scripts/src/ro-crates")
+ROCRATES = ["ro-crate", "ro-crate-with-files", "ro-crate-with-computational-workflow", "ro-crate-with-images", "ro-crate-with-file-author-location", "ro-crate-with-web-resources"]
+
+# the path of the rocrate-validator package
 ROCRATE_VALIDATOR_DIR = os.path.join(os.getcwd(), "rocrate-validator")
-# list of commands install the dependencies
+# commands available from the rocrate-validator package
 INSTALLATION_CMDS = ["poetry", "install"]
 USAGE = ["poetry", "run", "rocrate-validator", "validate", "<path_to_rocrate>"] # default usage
 HELP = ["poetry", "run", "rocrate-validator", "--help"]
 
 
+# TODO make sure the setup is done only once and preferably in the setup.py file
 def setup():
     # checking if the directory exists
     if not os.path.isdir(ROCRATE_VALIDATOR_DIR):
@@ -39,11 +44,13 @@ def setup():
     subprocess.run(INSTALLATION_CMDS, check=True)
 
 
-def get_help(): 
+def get_help():
+    '''Prints the help messages from the rocrate-validator package.''' 
     subprocess.run(HELP, check=True)
 
 
 def validate_rocrate(path_to_rocrate):
+    """Validates the rocrate against the rocrate-validator package."""
     # checking if the rocrate's path exists
     # TODO make sure this is the right path or that the right path is provided at all times?
     USAGE[-1] = path_to_rocrate
@@ -51,18 +58,20 @@ def validate_rocrate(path_to_rocrate):
     
 
 # TODO uncomment the following lines and figure out how to call them when needed
-setup()
-get_help()
+# setup()
+# get_help()
 
-ROCRATES = ["ro-crate", "ro-crate-with-files", "ro-crate-with-computational-workflow", "ro-crate-with-images", "ro-crate-with-file-author-location", "ro-crate-with-web-resources"]
-
-
-def test():
-    for rocrate in ROCRATES:
-        dir_path = os.path.join(ROCRATE_DIR, rocrate)
-        if not os.path.isdir(dir_path):
-            raise FileNotFoundError(f"The directory {dir_path} does not exist.")
-        validate_rocrate(str(dir_path))
+# TODO uncomment the following lines, put them in the tests dir
+# def test():
+#     for rocrate in ROCRATES:
+#         dir_path = os.path.join(ROCRATE_DIR, rocrate)
+#         if not os.path.isdir(dir_path):
+#             raise FileNotFoundError(f"The directory {dir_path} does not exist.")
+#         validate_rocrate(str(dir_path))
         
         
-test()
+# test()
+
+
+# TODO validate against all possible types and version + notification to user if not recognised 
+# (use the rocrate-validator package for this)
