@@ -19,8 +19,6 @@ CHECK
 ========================
 """
 # TODO : Implement the pseudonym manager module
-from artifact import ROCrate
-
 
 def generate_pseudonym(artifact):
     '''Generates a pseudonym for the given artifact.'''
