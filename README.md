@@ -21,5 +21,5 @@ This explains how to run the RO-Crate Python
 
 ## Helpful links
 
-1. https://github.com/crs4/rocrate-validator/
-2. https://github.com/ResearchObject/ro-crate-py
+1. [https://github.com/crs4/rocrate-validator/]
+2. [https://github.com/ResearchObject/ro-crate-py]

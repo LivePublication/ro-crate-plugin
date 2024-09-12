@@ -2,9 +2,6 @@ from rocrate.rocrate import ROCrate
 import os
 
 
-"""
-
-"""
 class ROCrateManager:
     def __init__(self, file_path=None):
         self.file_path = file_path
@@ -53,7 +50,7 @@ class ROCrateManager:
     
 
 def main():
-    crate = ROCrateManager(os.path.abspath('src/data'))
+    crate = ROCrateManager(os.path.abspath('python-scripts/src/ro-crates/ro-crate'))
     print()
     print('root data entity')
     print(crate.get_root_data_entity())

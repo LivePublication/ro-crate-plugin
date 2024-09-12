@@ -19,6 +19,7 @@ CHECK
 
 import os
 import subprocess
+import rocrate.rocrate as rocrate
 
 
 # Paths and directories
@@ -93,3 +94,8 @@ test()
 # TODO validate against all possible types and version + notification to user if not recognised 
 # (use the rocrate-validator package for this)
 
+# potentially be the 'ROCrateEntity' class
+class ValidatedROCrate:
+    def __init__(self, path):
+        self.path = path
+        self.rocrate = rocrate.ROCrate(path)

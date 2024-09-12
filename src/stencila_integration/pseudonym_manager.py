@@ -18,5 +18,27 @@ CHECK
 
 ========================
 """
-
 # TODO : Implement the pseudonym manager module
+from artifact import ROCrate
+
+
+def generate_pseudonym(artifact):
+    '''Generates a pseudonym for the given artifact.'''
+    
+    pass
+
+def get_pseudonym(artifact):
+    '''Returns the pseudonym for the given artifact.'''
+    pass
+
+def get_artifact(pseudonym):
+    '''Returns the artifact for the given pseudonym.'''
+    pass
+
+def get_all_pseudonyms():
+    '''Returns all pseudonyms and their corresponding artifacts.'''
+    pass
+
+def search_pseudonyms(query):
+    '''Searches for pseudonyms that match the given query.'''
+    pass

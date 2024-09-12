@@ -12,10 +12,11 @@ This file holds the logic for scanning the directory and detecting RO-Crate file
 also handles the notification to the user when an RO-Crate is detected.
 
 """
+import os
 from pathlib import Path
 
 class ROCrateDirectoryInformation():
-    
+    '''A class to get information about the RO-Crate directory.'''
     def __init__(self, folder):
         self.folder = folder
         self.files = self.get_files()
@@ -55,9 +56,20 @@ class ROCrateDirectoryInformation():
 def main():
     print(ROCrateDirectoryInformation('ro-crate-with-images').get_images_names())
 
-if __name__ == "__main__":
-    main()
-
 
 # TODO make the scanner scan the entire directory of where you are, then store any folder's path that has an RO-Crate in it
 # (e.g. /ro-crate if /ro-crate has "ro-crate-metadata.json" in it then we store that path)
+
+def scanner(directory):
+    '''Scans the current working directory for RO-Crate files, will store the directoy paths.'''
+    paths = []
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            if file == "ro-crate-metadata.json":
+                paths.append(root)
+                print(f"RO-Crate detected in {root}")
+    return paths
+
+
+if __name__ == "__main__":
+    scanner(os.getcwd())

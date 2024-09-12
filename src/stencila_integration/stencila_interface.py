@@ -13,3 +13,6 @@ CHECK
 
 ========================
 """
+
+def get_rocrate(rocrate):
+    pass
