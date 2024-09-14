@@ -9,6 +9,7 @@ requires-python = ">=3.10"
 dependencies = [
     "stencila-plugin>=2.0.0b3",
     "rocrate>=0.10.0",
+    "platformdirs>=4.3.3",
 ]
 name = "plugin-python-template"
 version = "0.1.0"
