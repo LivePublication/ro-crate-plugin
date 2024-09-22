@@ -6,17 +6,11 @@ The plugin shall parse the metadata of the `ro-crate-metadata.json` file to extr
 - The plugin shall validate the version of the RO-Crate against a predefiend list of expected types.
 - The plugin shall notify the user if the RO-Crate type or version is not recognised.
 
-note: use the RO-Crate validator (Slack)
-
-This file holds the logic for metadata extractiong and validation of the RO-Crate type and version. It will also notify the 
-user of any discrepancies (e.g., unrecognized type or invalid version)
-
-CHECK
+This file holds all logic required for metadata extracting and validation of the RO-Crate objects. It will also notify the user
+of any discrepancies (e.g., unrecognized type or invalid version). This is essentially just the validator, as it is using the 
+rocrate-validator package.
 
 """
-
-# this is essentially the validator (though it just passes them through
-# the rocrate-validator package)
 
 import os
 import subprocess
@@ -107,28 +101,27 @@ HELP = ["poetry", "run", "rocrate-validator", "--help"]  # help
 #     else:
 #         print(f"The RO-Crate {path_to_rocrate} is invalid.")
 
-# Converting the validator into a validator class!
 
 class Validator:
     def __init__(self):
-        self.valid_rocrates = []
-        self.invalid_rocrates = []
+        self.valid_rocrates = [] # list of valid rocrates, their paths are stored.
+        self.invalid_rocrates = [] # list of invalid rocrates, their paths are stored.
 
     def setup(self):
         logger.info("Setting up the RO-Crate validator.")
-        
+
         # checking if the directory exists
         if not os.path.isdir(ROCRATE_VALIDATOR_DIR):
             raise FileNotFoundError("The RO-Crate validator package does not exist.")
         os.chdir(ROCRATE_VALIDATOR_DIR)
-        
+
         # installing the dependencies for the RO-Crate validator)
         logger.info("Installing depdencies for the RO-Crate validator.")
         subprocess.run(INSTALLATION_CMDS, check=True)
 
     def get_help(self):
         """Prints the help messages from the rocrate-validator package."""
-        # TODO: ask - do we need this? it might be better to have it in the README and 
+        # TODO: ask - do we need this? it might be better to have it in the README and
         #       this is not exaclty useful for the users.
         logger.info("Printing the help messages from the RO-Crate validator.")
         subprocess.run(HELP, check=True)
@@ -136,7 +129,7 @@ class Validator:
     def validate_rocrate(self, path_to_rocrate):
         """Validates the rocrate against the rocrate-validator package."""
         logger.info(f"Validating the RO-Crate {path_to_rocrate}.")
-        
+
         if not os.path.exists(path_to_rocrate):
             raise FileNotFoundError(f"The path {path_to_rocrate} does not exist.")
 
@@ -159,28 +152,30 @@ class Validator:
 #     def __init__(self, path):
 #         self.path = path
 #         self.rocrate = rocrate.ROCrate(path)
-        
-#     def to_dict(self): 
+
+#     def to_dict(self):
 #         return {
 #             "path": self.path,
 #             "metadata": self.rocrate.metadata,
 #         }
-        
+
 #     def from_dict(self):
 #         pass
 
-# # TODO uncomment the following lines, put them in the tests dir
-def test():
-    validator = Validator()
-    validator.setup()
-    
-    for rocrate in ROCRATES:
-        dir_path = os.path.join(ROCRATE_DIR, rocrate)
-        if not os.path.isdir(dir_path):
-            raise FileNotFoundError(f"The directory {dir_path} does not exist.")
-        validator.validate_rocrate(str(dir_path))
-        
-    print(validator.valid_rocrates)
-    print(validator.invalid_rocrates)
 
-test()
+# TODO uncomment the following lines, put them in the tests dir
+# def test():
+#     validator = Validator()
+#     validator.setup()
+
+#     for rocrate in ROCRATES:
+#         dir_path = os.path.join(ROCRATE_DIR, rocrate)
+#         if not os.path.isdir(dir_path):
+#             raise FileNotFoundError(f"The directory {dir_path} does not exist.")
+#         validator.validate_rocrate(str(dir_path))
+
+#     print(validator.valid_rocrates)
+#     print(validator.invalid_rocrates)
+
+
+# test()

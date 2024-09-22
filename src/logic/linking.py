@@ -1,6 +1,5 @@
 """
-
-The plugin shall maintain a record of artifacts across iterations of RO-Crates, using unique identifiers
+AC5: The plugin shall maintain a record of artifacts across iterations of RO-Crates, using unique identifiers
 to track artifacts regardless of name changes. 
 
 - The plugin shall create symbolic links for artifacts in new RO-Crate iterations, pointing to their corresponding artifacts in previous iterations.
@@ -9,13 +8,9 @@ to track artifacts regardless of name changes.
 - The plugin shall provide a mechanism to handle conflicts when multiple artifacts could potentially match between iterations, allowing user intervention if necessary
 - The plugin shall provided detailed error messages if the symbolic link creation or updating process fails
 
-Manages links across iterations of the RO-Crate generation process.
-This file holds the logic for mapping links between artifacts across their iterations, doing
-this by managing artifact tracking across iterations, creating symbolic links, and resolving
-any conflicts found between similar artifacts.
-
-CHECK - link AC's to requirements!
-
+This module manages the links across iterations of the RO-Crate generation process. It manages artifact
+tracking across iterations, creates symbolic links, and resolves any conflicts found between similar
+artifacts.
 """
 # TODO : Implement the linking module
 
