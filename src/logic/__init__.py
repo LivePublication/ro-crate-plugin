@@ -20,6 +20,7 @@ class ROCratesManager():
         self.setup_done = False
 
     def save_data_to_json(self, data, filename):
+        # TODO: put it into plugin's own folder?
         logger.info(f"Saving data to {filename}.")
         
         user_cache_dir = Path(platformdirs.user_cache_dir())
@@ -32,6 +33,7 @@ class ROCratesManager():
             logger.error(f"Error: {error}")
     
     def load_data_from_json(self, filename):
+        # TODO: put it into plugin's own folder?
         logger.info(f"Loading data from {filename}.")
         
         user_cache_dir = Path(platformdirs.user_cache_dir())
@@ -62,29 +64,34 @@ class ROCratesManager():
                 raise
     
     def store_rocrates(self):
+        logger.info("Storing RO-Crates in users' rocrate_data.json")
+
         if not self.validator:
             raise RuntimeError("Validator not set up. Call setup() first.")
         
-        # The data to be stored to the rocrate_data.json file
+        # The data to be stored to the rocrate_data.json file #TODO: change to ro_crate_data.json
         data = {
             "ro_crates": [],
-            "version": 1 # TODO: update the version of the cache when needed.
+            "version": 1 # TODO: update the version of the cache when needed (in the update function)
         }
         
         ro_crates = []
-        
+        print(self.validator.invalid_rocrates)
+
+        # Go through all valid ro 
         for path in self.validator.valid_rocrates:
             # Create the RO-Crate instance from the path
             rocrate = ROCrate(path)
             
             # Need to extract the current RO-Crate's metadata to store it so,
             # create a path to the metadata file
-            metadata_file_path = Path(path) / "ro-crate-metadata.json"
+            metadata_file_path = Path.joinpath(Path(path), "ro-crate-metadata.json")
+            print(f"metadata file path: {metadata_file_path}")
 
             try: 
                 with open(metadata_file_path, "r") as f:
                     metadata = json.load(f)
-                # Appending the JSON data to the valid_rocrate_data_list        
+                     
                 ro_crates.append({ 
                     "uuid": str(uuid.uuid4()),
                     "path": str(path),
@@ -96,20 +103,24 @@ class ROCratesManager():
                 logger.error(f"Error reading metadata for {path}: {error}")
         
         
-        # for path in self.validator.invalid_rocrates:
-            # try: 
-            #     # with open(metadata_file_path, "r") as f:
-            #     #     metadata = json.load(f)
-            #     # # Appending the JSON data to the valid_rocrate_data_list        
-            #     # ro_crates.append({ 
-            #     #     "uuid": str(uuid.uuid4()),
-            #     #     "path": str(path),
-            #     #     "metadata": None,
-            #     #     "artifacts": None,
-            #     #     "valid": False
-            #     # })
-            # except Exception as error:
-            #     logger.error(f"Error reading metadata for {path}: {error}")
+        for path in self.validator.invalid_rocrates:
+            # Need to extract the current RO-Crate's metadata to store it so,
+            # create a path to the metadata file
+            metadata_file_path = Path.joinpath(Path(path), "ro-crate-metadata.json")
+
+            try: 
+                with open(metadata_file_path, "r") as f:
+                    metadata = json.load(f)
+     
+                ro_crates.append({ 
+                    "uuid": str(uuid.uuid4()),
+                    "path": str(path),
+                    "metadata": metadata,
+                    "artifacts": None,
+                    "valid": False
+                })
+            except Exception as error:
+                logger.error(f"Error reading metadata for {path}: {error}")
 
         data["ro_crates"] = ro_crates
         # saving the data to a json file
@@ -157,43 +168,34 @@ class ROCratesManager():
         except Exception as error:
             logger.error(f"Error printing data: {error}")
 
+    def hash_file(self, path):
+        cwd = Path(os.getcwd())
+        file_path = cwd / path
+        file_content = None 
+            
+        try:     
+            with open(file_path, "rb") as f:
+                file_content = f.read()
+            return hashlib.sha256(file_content).hexdigest()
+        except Exception as e:
+            logger.error(f"RO-Crate {path} cannot be hashed")
+            return file_content
+
 # TODO: ensure this setup happens once the plugin opens
 # TODO: ensure an easy way to access the data from the JSON file
 # TODO: maybe make the validator more accessible? - not just a hard setup..
-# if __name__ == "__main__":
-#     if VALIDATOR is None:
-#         VALIDATOR = setup()
-        
-#     store_rocrates(VALIDATOR)
     
-#     # Load the data
-#     data = load_data_from_json("rocrate_data.json")
-#     # TODO: pretty print the data from the JSON file
-#     print(data)
-    
-# TODO: potentially turn this into a class structure to do the following
 # - ensure setup happens only once by using a class to manage the setup state and validator 
 # - handle file paths more robustly (use os.path.join() or pathlib.Path) to handle cross-platform compatability
 # - improve logging and error handling (add more detailed error messages and handle portential exceptions more gracefully)
 # - optimize data loading and saving (minimize repeated operations and make data handling more efficient)
 # - refactor for readability - separate concerns into functions or methods to make the code more readable and maintainable
-
+ 
 # TODO: extract data entities from the RO-Crate and store them accordingly
 # - look at ACs again
 # Is there any better way to store the RO-Crates? - potentially in a database? i'm not sure what's good w/ python
 # as for the cached data, how do i ensure that the data is up to data - if it has changed i need to create a new 
 # potential cache file so that i can determine if any of the rocrates have been updated or whatever... symbolic linking.
-
-
-def hash_file(path):
-    cwd = Path(os.getcwd())
-    file_path = cwd / path 
-        
-    with open(file_path, "rb") as f:
-        file_content = f.read()
-        return hashlib.sha256(file_content).hexdigest()
-
-
 
 if __name__ == "__main__":
     manager = ROCratesManager()
@@ -201,10 +203,6 @@ if __name__ == "__main__":
     manager.store_rocrates()
     manager.load_data_from_json("rocrate_data.json")
     manager.print_data()
-    #hash_one = hash_file("python-scripts/tests/ro-crates/ro-crate/ro-crate-metadata.json")
-    #hash_two = hash_file("python-scripts/tests/ro-crates/ro-crate-with-files/ro-crate-metadata.json")
-    #print(hash_one == hash_two)
-    
     
     # TODO
     # - extract the data entities from the RO-Crate
