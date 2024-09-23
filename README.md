@@ -23,3 +23,8 @@ This explains how to run the RO-Crate Python
 
 1. [https://github.com/crs4/rocrate-validator/]
 2. [https://github.com/ResearchObject/ro-crate-py]
+
+`git clone <insert_url>`
+`git pull`
+`git submodule init`
+`git submodule update`
