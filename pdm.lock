@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:165b952a235e181b172cb1614e80a66aee441049c1f4599cdd229413870f268e"
+content_hash = "sha256:a75121a0229c11a98e7b019a7c808e7d73ce41f4d26007ff79308783c7f5c5a8"
 
 [[metadata.targets]]
 requires_python = ">=3.10"
@@ -795,7 +795,7 @@ files = [
 
 [[package]]
 name = "rocrate"
-version = "0.10.0"
+version = "0.11.0"
 requires_python = ">=3.7"
 summary = "RO-Crate metadata generator/parser"
 groups = ["default"]
@@ -808,8 +808,8 @@ dependencies = [
     "requests",
 ]
 files = [
-    {file = "rocrate-0.10.0-py3-none-any.whl", hash = "sha256:fa49f19a10040d2990f129412930b0fabc8fdb6569275fa8c5807c661b2a676e"},
-    {file = "rocrate-0.10.0.tar.gz", hash = "sha256:cbe54d441b62096cef304404f23e9d4e9def7d267577dae4e2f87c7f9020bc32"},
+    {file = "rocrate-0.11.0-py3-none-any.whl", hash = "sha256:9b39513f96ea64119b2094d856774fc4f05685dea2269a0baf72bbfd3ac8f64a"},
+    {file = "rocrate-0.11.0.tar.gz", hash = "sha256:5fa4002446695e2a927ead02eee7be0ecf4e0089312d8127e51aa2175a25fa59"},
 ]
 
 [[package]]
