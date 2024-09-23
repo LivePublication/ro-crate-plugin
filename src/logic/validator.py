@@ -73,35 +73,6 @@ DISABLE_COLOUR = [
 ]  # disable coloured output
 HELP = ["poetry", "run", "rocrate-validator", "--help"]  # help
 
-# def setup():
-#     # checking if the directory exists
-#     if not os.path.isdir(ROCRATE_VALIDATOR_DIR):
-#         raise FileNotFoundError("The RO-Crate validator package does not exist.")
-
-#     os.chdir(ROCRATE_VALIDATOR_DIR)
-
-#     # installing the dependencies for the RO-Crate validator)
-#     subprocess.run(INSTALLATION_CMDS, check=True)
-
-# def get_help():
-#     """Prints the help messages from the rocrate-validator package."""
-#     subprocess.run(HELP, check=True)
-
-# def validate_rocrate(path_to_rocrate):
-#     """Validates the rocrate against the rocrate-validator package."""
-#     if not os.path.exists(path_to_rocrate):
-#         raise FileNotFoundError(f"The path {path_to_rocrate} does not exist.")
-
-#     USAGE[-1] = path_to_rocrate
-#     result = subprocess.run(USAGE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-#     USAGE[-1] = "<path_to_rocrate>"
-
-#     if result.returncode == 0:
-#         print(f"The RO-Crate {path_to_rocrate} is valid.")
-#     else:
-#         print(f"The RO-Crate {path_to_rocrate} is invalid.")
-
-
 class Validator:
     def __init__(self):
         self.valid_rocrates = [] # list of valid rocrates, their paths are stored.
@@ -128,15 +99,14 @@ class Validator:
 
     def validate_rocrate(self, path_to_rocrate):
         """Validates the rocrate against the rocrate-validator package."""
+        path_to_rocrate = str(Path(path_to_rocrate))
         logger.info(f"Validating the RO-Crate {path_to_rocrate}.")
 
         if not os.path.exists(path_to_rocrate):
             raise FileNotFoundError(f"The path {path_to_rocrate} does not exist.")
 
-        USAGE[-1] = path_to_rocrate
-        result = subprocess.run(USAGE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        USAGE[-1] = "<path_to_rocrate>"
-
+        result = subprocess.run(USAGE[:-1] + [path_to_rocrate], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        
         if result.returncode == 0:
             logger.info(f"The RO-Crate {path_to_rocrate} is valid.")
             self.valid_rocrates.append(path_to_rocrate)
@@ -144,24 +114,6 @@ class Validator:
             # TODO: give the user a reason as to why the RO-Crate is invalid, so they could fix it.
             logger.info(f"The RO-Crate {path_to_rocrate} is invalid.")
             self.invalid_rocrates.append(path_to_rocrate)
-
-
-# # TODO: print what specification the RO-Crate is following
-# # potentially be the 'ROCrateEntity' class
-# class ValidatedROCrate:
-#     def __init__(self, path):
-#         self.path = path
-#         self.rocrate = rocrate.ROCrate(path)
-
-#     def to_dict(self):
-#         return {
-#             "path": self.path,
-#             "metadata": self.rocrate.metadata,
-#         }
-
-#     def from_dict(self):
-#         pass
-
 
 # TODO uncomment the following lines, put them in the tests dir
 # def test():
