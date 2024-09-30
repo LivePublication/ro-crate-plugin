@@ -28,3 +28,6 @@ This explains how to run the RO-Crate Python
 `git pull`
 `git submodule init`
 `git submodule update`
+
+`pdm install`
+change interpreter to .venv
