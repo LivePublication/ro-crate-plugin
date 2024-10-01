@@ -29,7 +29,7 @@ def test_single_rocrate_returns_rocrate_dir():
     with tempfile.TemporaryDirectory() as temp_dir:
         ro_crate_path = os.path.join(temp_dir, "ro-crate-metadata.json")
         with open(ro_crate_path, 'w') as f:
-            f.write("{}")  # Write a minimal JSON object
+            f.write("{}")
 
         detected_paths = scanner(str(temp_dir))
         assert detected_paths == [temp_dir]
@@ -103,3 +103,6 @@ def test_large_number_rocrates_returns_correct_number_dirs():
                 f.write("{}")
         
         assert len(scanner(str(temp_dir))) == 1000
+
+
+# test raise exceptions
