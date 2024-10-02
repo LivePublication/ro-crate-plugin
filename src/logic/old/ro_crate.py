@@ -9,7 +9,7 @@ The plugin shall extract a list of artifacts from the ro-crate-metadata.json fil
 
 """
 from rocrate.rocrate import ROCrate
-from logic.artifact import Artifact
+from .artifact import Artifact
 import os
 
 # Data entities primarily exist in their own right as a file or directory (which may by in the RO-Crate Root
