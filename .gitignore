@@ -182,4 +182,3 @@ cython_debug/
 
 # Ignore Git Submodules
 .gitsubmodules
-rocrate-validator/
