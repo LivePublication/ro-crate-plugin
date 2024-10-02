@@ -104,5 +104,4 @@ def test_large_number_rocrates_returns_correct_number_dirs():
         
         assert len(scanner(str(temp_dir))) == 1000
 
-
-# test raise exceptions
+# TODO: test that exceptions are raised
