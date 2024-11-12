@@ -26,15 +26,14 @@ from logic.scanner import scanner
 from logic.validator import Validator
 from logic.cache_manager import CacheManager
 from logic.artifact_manager import Artifact
+from logic.logger import Logger
 import platformdirs
-import re
-import json
 import uuid
 import hashlib
 
 # Logger to help keep a trace of any events that occur.
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+logger = Logger(__name__).get_logger()
+
 
 # Paths and directories for storing the cache.
 USER_CACHE_DIR = Path(platformdirs.user_cache_dir())
@@ -272,8 +271,9 @@ class ROCratesManager:
         return info
 
 
+# The following exists for manual testing the RO-Crate Plugin. Call the methods are you
+# desires but make sure that the ROCratesManager is initialised:
+# e.g. manager = ROCratesManager()
 if __name__ == "__main__":
-    # setup stages
-    manager = ROCratesManager()
-    #manager.cache_manager.load_data_from_json()
-    manager.update()
+    manager = ROCratesManager() # initialise the ROCratesManager
+    #manager.update() # test the ROCratesManager's update functionality 
