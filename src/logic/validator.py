@@ -27,11 +27,11 @@ import os
 import subprocess
 from enum import Enum
 from pathlib import Path
-import logging
+from logic.logger import Logger
 
 # Setting up the logger
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+logger = Logger(__name__).get_logger()
+
 
 # Paths and directories needed for the rocrate-validator
 ROCRATE_VALIDATOR_DIR = os.path.join(os.getcwd(), "rocrate-validator")
@@ -98,13 +98,15 @@ class Validator:
         # Install dependencies for the RO-Crate validator
         os.chdir(ROCRATE_VALIDATOR_DIR)
         logger.info("Installing depdencies for the RO-Crate validator.")
-        subprocess.run(ValidatorCommand.INSTALL_DEPENDENCIES.value, check=True)
+        subprocess.run(ValidatorCommand.INSTALL_DEPENDENCIES.value, check=True,
+                       stdout=subprocess.PIPE, stderr=subprocess.PIPE,)
 
     def get_help(self):
         # TODO: ask - do we need this? it might be better to have it in the README as this is currently not helpful for the user.
         """Prints the help messages from the rocrate-validator package."""
         logger.info("Printing the help messages from the RO-Crate validator.")
-        subprocess.run(ValidatorCommand.HELP.value, check=True)
+        subprocess.run(ValidatorCommand.HELP.value, check=True, 
+                       stdout=subprocess.PIPE, stderr=subprocess.PIPE,)
 
     def validate_rocrate(self, path_to_rocrate):
         """Validates the rocrate against the rocrate-validator package."""

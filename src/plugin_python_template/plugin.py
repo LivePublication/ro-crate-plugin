@@ -12,6 +12,9 @@ from stencila_types import shortcuts as S
 from stencila_types import types as T
 from stencila_types.utilities import to_json
 
+from logic.rocrate_manager import ROCratesManager
+
+manager = ROCratesManager()
 
 class EchoKernel(Kernel):
     """
@@ -71,6 +74,27 @@ class EchoKernel(Kernel):
             T.ExecutionMessage(message="Echoing back", level=T.MessageLevel.Info)
         ]
         return nodes, messages
+    
+    async def evaluate(self, code: str) -> tuple[list[T.Node], list[T.ExecutionMessage]]:
+        """
+        Here we evaluate the code and return the evaluted result.
+        """
+        return eval(code)
+    
+    async def list_variables(self):
+        """ 
+        Here we return a list of ro-crate artifacts as variables.
+        """
+        return list(T.Variable(name="artifact", value=result) for result in manager.load_artifacts())
+    
+    async def get_variable(self, name: str):
+        """ 
+        Here we return a single ro-crate artifact as a variable.
+        """
+        for result in manager.load_artifacts():
+            if result == name: # Assuming that there is a unique naming convention
+                return T.Variable(name=name, value=result)
+        return None
 
 
 class EchoModel(Model):
