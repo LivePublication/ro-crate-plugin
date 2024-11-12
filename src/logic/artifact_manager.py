@@ -12,15 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from logic.cache_manager import CacheManager, ARTIFACTS_DIR
+from logic.logger import Logger
+from logic.cache_manager import ARTIFACTS_DIR
 from pathlib import Path
 from enum import Enum
-import logging
 import os
 
 # Logger to help keep a trace of any events that occur.
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+logger = Logger(__name__).get_logger()
 
 
 class EntityType(Enum):
@@ -28,6 +27,11 @@ class EntityType(Enum):
     DATASET = str("Dataset")  # Also known as directory
     SCRIPT = ["File", "SoftwareSourceCode"]
     WORKFLOW = ["File", "SoftwareSourceCode", "ComputationalWorkflow"]
+    UNKNOWN = None
+    
+    @classmethod
+    def _missing_(cls, value):
+        return cls.UNKNOWN
 
 
 class Artifact:
@@ -47,10 +51,11 @@ class Artifact:
             "name": self.entity.name if hasattr(self.entity, "name") else "",
             "type": self.entity.type if hasattr(self.entity, "type") else "",
             "path": self.rocrate.path if hasattr(self.rocrate, "path") else "",
+            "description": self.entity.description if hasattr(self.entity, "description") else "",
             "pseudonym": self.create_pseudonym(),
             "version": "1.0",
-            # "provenance:": None,
-            "metadata": hash(self.entity.properties),  # hash the metadata
+            # "provenance:": None, TODO: implement provenance
+            "metadata": hash(self.entity.properties),
             "symbolic_link": self.create_symlink(self.entity.id, Path.joinpath(self.rocrate.source, self.entity.id))
         }
         return artifact
@@ -88,16 +93,19 @@ class Artifact:
         """
         logger.info("Creating a pseudonym for the artifact.")
         
-        entity_id = self.entity.id
+        entity_id = str(self.entity.id)
         entity_type = str(self.entity.type)
-        description = self.entity.get("description", "").lower().replace(" ", "_")[:20]
-        name = self.entity.get("name", "")
+        if hasattr(self.entity, "description"):
+            description = str(self.entity.get("description", "").lower().replace(" ", "_")[:20])
+        else:
+            description = ""
 
         try:
             filename, ext = entity_id.rsplit('.', 1)
+            ext = f".{ext}"
         except ValueError:
             filename = entity_id
-            ext = ""
+            ext = ".unknown"
 
         if entity_type == EntityType.FILE.value:
             pseudonym = filename + "_file" + ext
@@ -107,8 +115,9 @@ class Artifact:
             pseudonym = filename.rstrip("/")  # If it's a directory or dataset, remove the trailing slash
         else:
             if description:
-                pseudonym = description + "_" + filename
-            pseudonym = entity_id.replace("/", "_")  # TODO: clean entity id?
+                pseudonym = filename + "_" + description 
+            else:
+                pseudonym = entity_id.replace("/", "_")  # TODO: clean entity id?
         return pseudonym
     
     def resolve_symlink(self, pseudonym) -> str | None:
