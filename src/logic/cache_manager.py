@@ -1,14 +1,13 @@
-import logging
 import os
 import platformdirs
 import json
 
 from pathlib import Path 
-
+from logic.logger import Logger
 
 # Logger to help keep a trace of any events that occur.
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+logger = Logger(__name__).get_logger()
+
 
 # Paths and directories for storing the cache.
 USER_CACHE_DIR = Path(platformdirs.user_cache_dir())

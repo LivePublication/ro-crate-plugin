@@ -25,10 +25,11 @@ This file holds the logic for scanning the directory and detecting RO-Crate file
 also handles the notification to the user when an RO-Crate is detected.
 """
 import os
-import logging
+from logic.logger import Logger
 
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+# Logger to help keep a trace of any events that occur.
+logger = Logger(__name__).get_logger()
+
 
 def scanner(directory):
     """
