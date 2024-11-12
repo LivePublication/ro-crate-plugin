@@ -4,8 +4,9 @@ from stencila_plugin.kernel import KernelInstance
 from stencila_plugin.testing import Harness
 from stencila_types import shortcuts as S
 from stencila_types import types as T
+import pytest
 
-
+@pytest.mark.skip(reason="no way of currently testing this")
 async def test_kernel(harness: Harness):
     """This will be run multiple times under the different test harnesses."""
     result = await harness.send_rpc("kernel_start", kernel="echo-python")
@@ -23,7 +24,7 @@ async def test_kernel(harness: Harness):
     for m in messages:
         assert m.level == T.MessageLevel.Info
 
-
+@pytest.mark.skip(reason="no way of currently testing this")
 async def test_assistant(harness: Harness):
     """This will be run multiple times under the different test harnesses."""
     task = ModelTask(

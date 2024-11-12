@@ -149,5 +149,3 @@ def test_validate_valid_rocrate(validator):
             validator.validate_rocrate(ro_crate_path)
 
             mock_run.assert_called_once_with(ValidatorCommand.VALIDATE.value + [os.path.join(temp_dir, "ro-crate-metadata.json")], stdout=-1, stderr=-1)
-
-
