@@ -26,7 +26,7 @@ The following commands explain how to run tests, and how to add them.
 The RO-Crate Plugin utilises a lot of wonderful and helpful OpenSource work, here are some links to their corresponding OpenSource GitHubs (along with why we have decided to use it)
 
 ## Notes
-# Stencila Plugin stuff?
+# Stencila Plugin
 This repository was initially created using the starting point for writing a Stencila plugin in Python. It contains a standard python setup, including:
 - [Poetry](https://python-poetry.org) for package management.
 - The required dependencies from Stencila ([types](https://pypi.org/project/stencila_types/) and [plugin](https://pypi.org/project/stencila_plugin/))
