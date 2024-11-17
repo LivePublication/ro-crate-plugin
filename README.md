@@ -18,27 +18,35 @@ This explains how to run the RO-Crate Plugin on your local machine (whether you'
     `pdm install`
 6. Initialise the project using one of the following commands:
     
+7. To run the RO-Crate plugin, traverse to the file `rocrate_manager.py` and run the commands in main (this is how it currently works but will eventually be linked up to Stencila's VSCode extension)
 
 ## Testing
 The following commands explain how to run tests, and how to add them.
+
+Run the following commands in the terminal to run test:
+1. `cd tests`
+2. `pytest`
+A trace should display the results of the test
+
+To add tests traverse yourself to the `/tests` directory and and tests as such. Notes:
+- `/tests/crates` includes valid and invalid RO-Crate examples to test against
+- `/tests/plugin` includes all tests relating to the component that operates as a Stencila Plugin
+- `/tests/unit` includes all unit tests that test the logic of the RO-Crate Plugin 
 
 ## Additional Context
 The RO-Crate Plugin utilises a lot of wonderful and helpful OpenSource work, here are some links to their corresponding OpenSource GitHubs (along with why we have decided to use it)
 
 ## Notes
-# Stencila Plugin stuff?
-This repository was initially created using the starting point for writing a Stencila plugin in Python. It contains a standard python setup, including:
-- [Poetry](https://python-poetry.org) for package management.
-- The required dependencies from Stencila ([types](https://pypi.org/project/stencila_types/) and [plugin](https://pypi.org/project/stencila_plugin/))
-- Implementation of the Kernel API that simply echoes the input.
-- A set of tests that can be run using `pytest`.
+# This Plugin is a Stencila Plugin, what does that mean?
+This repo has been created from Stencila's plugin template given [here](https://github.com/stencila/plugin-python-template). It therefore has the following dependencies:
+- [Poetry](https://python-poetry.org) for package management. 
+- Stencila dependencies: ([types](https://pypi.org/project/stencila_types/) and [plugin](https://pypi.org/project/stencila_plugin/))
+- `pytest`
 
-If you'd like to work on this repository any future, use this template to continue working on it but ideally fork your own repository and create related branches. Notes:
-- `src` includes all informtion relating to the RO-Crate Plugins functionality
+If you'd like to work on this repository the logic regarding the RO-Crate Plugin exsists within `/src/logic` where the Stencila plugin logic exists under `src/plugin_python_template. Ideally continue working on this using a fork of the repository and created branches as such. Please Note:
+- `src` includes all information relating to the RO-Crate Plugin's functionality
 - `pyproject.toml` includes the package name, description, and author.
 - `tests/conftest.py` includes the location of the plugin script.
 
-## Other Helpful links
-
-1. [https://github.com/crs4/rocrate-validator/]
-2. [https://github.com/ResearchObject/ro-crate-py]
+# Open Source Libraries
+This project has utilised the lovely work of `crs4's` rocrate-validator to validate all of the plugins RO-Crate objects, here is the link to their repository https://github.com/crs4/rocrate-validator/. Please keep in mind that currently we are using a git submodule for the rocrate-validator - this will eventually be changed to use their pip installation. It also utilises the work of ResearchObject to create and consume RO-Crate objects here is the link to their repository: https://github.com/ResearchObject/ro-crate-py.
