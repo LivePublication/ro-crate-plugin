@@ -14,34 +14,6 @@ def real_artifact():
     #real_rocrate = new rocrate()
     return Artifact(None, None)
 
-# @pytest.fixture
-# def mock_artifact():
-#     mock_rocrate = MagicMock()
-#     mock_rocrate.path = "/path/to/rocrate"
-#     mock_rocrate.source = "/source/path"
-    
-#     mock_entity = MagicMock()
-#     mock_entity.id = "artifact.txt"
-#     mock_entity.name = "Test Artifact"
-#     mock_entity.type = EntityType.FILE.value
-#     mock_entity.properties = json.dumps({"key": "value"})
-    
-#     return Artifact(mock_rocrate, mock_entity)
-
-# @pytest.fixture
-# def mock_artifact_two():
-#     mock_rocrate = MagicMock()
-#     mock_rocrate.path = "/path/to/rocrate_two"
-#     mock_rocrate.source = "/source/path_two"
-    
-#     mock_entity = MagicMock()
-#     mock_entity.id = "artifact_two.txt"
-#     mock_entity.name = "Test Artifact Two"
-#     mock_entity.type = EntityType.FILE.value
-#     mock_entity.properties = json.dumps({"key": "value"})
-    
-#     return Artifact(mock_rocrate, mock_entity)
-
 @pytest.fixture
 def create_mock_artifact():
     """Helper function to create a mock Artifact with specified values."""
@@ -49,12 +21,17 @@ def create_mock_artifact():
         mock_rocrate = MagicMock()
         mock_rocrate.path = rocrate_path
         mock_rocrate.source = source_path
+        # Mocking source as Path
+        mock_rocrate.source = Path(source_path)
 
         mock_entity = MagicMock()
         mock_entity.id = entity_id
         mock_entity.name = entity_name
-        mock_entity.type = entity_type.value
+        mock_entity.type = entity_type
         mock_entity.properties = json.dumps({"key": "value"})
+        
+        mock_entity.get.return_value = ""
+        mock_entity.description = ""
 
         return Artifact(mock_rocrate, mock_entity)
 
@@ -66,22 +43,27 @@ def null_artifact():
 
 @pytest.fixture
 def mock_artifact(create_mock_artifact):
+    """Fixture that creats a mock artficat of a FILE type."""
     return create_mock_artifact(
         rocrate_path="/path/to/rocrate",
         source_path="/source/path",
         entity_id="artifact.txt",
         entity_name="Test Artifact",
-        entity_type=EntityType.FILE
+        entity_type=EntityType.FILE.value
     )
 
 @pytest.fixture
 def mock_artifact_two(create_mock_artifact):
+    """
+    Fixture that creats a mock artficat of a FILE type. 
+    - Used to compare against mock_artifact.
+    """
     return create_mock_artifact(
         rocrate_path="/path/to/rocrate_two",
         source_path="/source/path_two",
         entity_id="artifact_two.txt",
         entity_name="Test Artifact Two",
-        entity_type=EntityType.FILE
+        entity_type=EntityType.FILE.value
     )
 
 @pytest.fixture
@@ -92,36 +74,37 @@ def mock_artifacts(create_mock_artifact):
             source_path="/source/path",
             entity_id="artifact.txt",
             entity_name="Test Artifact",
-            entity_type=EntityType.FILE
+            entity_type=EntityType.FILE.value
         )
     mock_two = create_mock_artifact(
             rocrate_path="/path/to/rocrate",
             source_path="/source/path",
             entity_id="artifact.txt",
             entity_name="Test Artifact Dataset",
-            entity_type=EntityType.DATASET
+            entity_type=EntityType.DATASET.value
         )
     mock_three = create_mock_artifact(
             rocrate_path="/path/to/rocrate",
             source_path="/source/path",
             entity_id="artifact.txt",
             entity_name="Test Artifact Script",
-            entity_type=EntityType.SCRIPT
+            entity_type=EntityType.SCRIPT.value
         )
     mock_four = create_mock_artifact(
             rocrate_path="/path/to/rocrate",
             source_path="/source/path",
             entity_id="artifact.txt",
             entity_name="Test Artifact Workflow",
-            entity_type=EntityType.WORKFLOW
+            entity_type=EntityType.WORKFLOW.value
         )
     mock_five = create_mock_artifact(
             rocrate_path="/path/to/rocrate",
             source_path="/source/path",
             entity_id="artifact.txt",
             entity_name="Test Artifact Unknown",
-            entity_type=EntityType.UNKNOWN
+            entity_type=EntityType.UNKNOWN.value
         )
+    
     return [
         mock_one,
         mock_two,
@@ -140,11 +123,9 @@ def test_hash(mock_artifact):
     correct_hash = hash((mock_artifact.rocrate, mock_artifact.entity))
     assert correct_hash == mock_artifact.__hash__()
 
-def test_extract_artifact(mock_artifact, temp_path):
-    pseudonym = "artifact_file.txt" 
-    artifacts_dir = temp_path 
-    temp_path.mkdir()
-    
+
+def test_extract_artifact(mock_artifact):
+    pseudonym = "artifact_file.txt"     
     artifact = {
         "id": "artifact.txt",
         "name": "Test Artifact",
@@ -154,16 +135,17 @@ def test_extract_artifact(mock_artifact, temp_path):
         "pseudonym": pseudonym,
         "version": "1.0",
         "metadata": hash(json.dumps({"key": "value"})), 
-        "symbolic_link": str(ARTIFACTS_DIR / pseudonym) 
+        "symbolic_link": str(Path(ARTIFACTS_DIR / pseudonym))
     }
     assert mock_artifact.extract_artifact() == artifact
-    
+
+
 def test_generate_pseudonym(mock_artifact):
     pseudonym = "artifact_file.txt"
     assert pseudonym == mock_artifact.create_pseudonym()
     
 def test_generate_pseudonyms(mock_artifacts):
-    pseudonyms = ["artifact_file.txt", "artifact", "artifact_script.txt", "artifact_test_artifact", "artifact.txt"]
+    pseudonyms = ["artifact_file.txt", "artifact", "artifact_script.txt", "artifact_workflow.txt", "artifact.txt"]
     for i, mock_artifact in enumerate(mock_artifacts):
         generated_pseudonym = mock_artifact.create_pseudonym()
         assert generated_pseudonym == pseudonyms[i]
