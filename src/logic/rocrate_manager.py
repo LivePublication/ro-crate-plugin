@@ -49,6 +49,7 @@ class ROCratesManager:
         self.directory = directory  # TODO: Change the directory to the current working directory of the document.
 
         # Set up the validator when the ROCratesManager is instantiated.
+        logger.info("Setting up the validator, as the ROCratesManager has been instantiated.")
         self.setup()
 
     def setup(self):
