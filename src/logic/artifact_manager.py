@@ -94,9 +94,10 @@ class Artifact:
         logger.info("Creating a pseudonym for the artifact.")
         
         entity_id = str(self.entity.id)
-        entity_type = str(self.entity.type)
+        entity_type = self.entity.type
+        
         if hasattr(self.entity, "description"):
-            description = str(self.entity.get("description", "").lower().replace(" ", "_")[:20])
+            description = (str(self.entity.get("description", "")).lower().replace(" ", "_")[:20] if self.entity.get("description") else "")
         else:
             description = ""
 
@@ -106,13 +107,15 @@ class Artifact:
         except ValueError:
             filename = entity_id
             ext = ".unknown"
-
+        
         if entity_type == EntityType.FILE.value:
             pseudonym = filename + "_file" + ext
         elif entity_type == EntityType.SCRIPT.value:
             pseudonym = filename + "_script" + ext
         elif entity_type == EntityType.DATASET.value:
             pseudonym = filename.rstrip("/")  # If it's a directory or dataset, remove the trailing slash
+        elif entity_type == EntityType.WORKFLOW.value:
+            pseudonym = filename + "_workflow" + ext
         else:
             if description:
                 pseudonym = filename + "_" + description 
