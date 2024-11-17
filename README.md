@@ -1,52 +1,94 @@
 # Welcome to the RO-Crate Plugin!
-This README.md will discuss ways to set up the RO-Crate Plugin and also educate you on how to run it with Stencila, with will be a later upcoming feature.
+Welcome to the **RO-Crate Plugin**! This repository contains tools to help you manage RO-Crates efficiently. It’s designed to be extensible and will integrate with **Stencila** in a future release.
 
+---
 
 ## Getting Started
-This explains how to run the RO-Crate Plugin on your local machine (whether you've got a Windows, Linux, or MacOS). Please follow the following steps:
+Follow these steps to set up the RO-Crate Plugin on your local machine, whether you're using Windows, Linux, or macOS.
 
-1. Open a terminal
-2. Clone the RO-Crate Plugin repository with the following command:
-    `git clone <https://github.com/LivePublication/ro-crate-plugin>`
-3. Ensure that you are in the correct directory for the ro-crate-plugin with the following command:
-    `cd ro-crate-plugin`
-4. Please ensure that you currenctly have the most uptodate version of the ro-crate-plugin and it's dependencies through the following command:
-    `git pull`
-    `git submodule init`
-    `git submodule update`
-5. Install all other dependencies with the following command:
-    `pdm install`
-6. Initialise the project using one of the following commands:
-    
-7. To run the RO-Crate plugin, traverse to the file `rocrate_manager.py` and run the commands in main (this is how it currently works but will eventually be linked up to Stencila's VSCode extension)
+### Dependencies
+Before starting, ensure you have the following installed:
+- [Git](https://git-scm.com)
+- [PDM](https://pdm-project.org/en/latest/) for dependency management
+- Python (version 3.8 or higher)
+
+### Installation Steps
+1. **Clone the repository**
+   Open a terminal and run:
+   ```bash
+   git clone https://github.com/LivePublication/ro-crate-plugin
+   ```
+2. Navigate to the project directory
+   ```bash
+   cd ro-crate-plugin
+   ```
+3. Ensure that the repository is up-to-date including the submodule(s):
+   ```bash
+   git pull
+   git submodule init
+   git submodule update
+   ```
+4. Install dependencies
+   ```bash
+   pdm install
+   ```
+5. Activate the virtual environment
+   ```bash
+   source .venv/bin/activate
+   ```
+7. Run the RO-Crate Plugin
+   For now, run the plugin manually:
+   - Navigate to the file `rocrate_manager.py` and run main().
+_Note: Integration with the Stencila VS Code extension is under development and will replace step 7._
+
+---
 
 ## Testing
-The following commands explain how to run tests, and how to add them.
+We’ve included comprehensive tests to ensure the plugin functions correctly. Here’s how you can run and add tests:
 
-Run the following commands in the terminal to run test:
-1. `cd tests`
-2. `pytest`
-A trace should display the results of the test
+### Running Tests
+1. Navigate to the `tests` directory:
+   ```bash
+   cd tests
+   ```
+2. Execute the tests using `pytest`:
+   ```bash
+   pytest 
+   ```
+   A detailed test trace will display the results.
 
-To add tests traverse yourself to the `/tests` directory and and tests as such. Notes:
-- `/tests/crates` includes valid and invalid RO-Crate examples to test against
-- `/tests/plugin` includes all tests relating to the component that operates as a Stencila Plugin
-- `/tests/unit` includes all unit tests that test the logic of the RO-Crate Plugin 
+### Adding Tests
+To add new tests, navigate to the /tests directory. You can organize your tests under the following subdirectories:
+- `/tests/crates`: Tests for valid and invalid RO-Crate examples.
+- `/tests/plugin`: Tests related to the Stencila Plugin component.
+- `/tests/unit`: Unit tests for the core logic of the RO-Crate Plugin.
 
-## Additional Context
-The RO-Crate Plugin utilises a lot of wonderful and helpful OpenSource work, here are some links to their corresponding OpenSource GitHubs (along with why we have decided to use it)
+## Additional Information
+### What is this Plugin?
+This repository is based on the Stencila Plugin Template. Learn more about it [here](https://github.com/stencila/plugin-python-template).
 
-## Notes
-# This Plugin is a Stencila Plugin, what does that mean?
-This repo has been created from Stencila's plugin template given [here](https://github.com/stencila/plugin-python-template). It therefore has the following dependencies:
+The plugin depends on the following tools and libraries: 
 - [Poetry](https://python-poetry.org) for package management. 
 - Stencila dependencies: ([types](https://pypi.org/project/stencila_types/) and [plugin](https://pypi.org/project/stencila_plugin/))
-- `pytest`
+- `pytest` for testing.
 
-If you'd like to work on this repository the logic regarding the RO-Crate Plugin exsists within `/src/logic` where the Stencila plugin logic exists under `src/plugin_python_template. Ideally continue working on this using a fork of the repository and created branches as such. Please Note:
-- `src` includes all information relating to the RO-Crate Plugin's functionality
-- `pyproject.toml` includes the package name, description, and author.
-- `tests/conftest.py` includes the location of the plugin script.
+### Project Structure
+- `/src`: contains the core logic for the RO-Crate Plugin.
+- `pyproject.toml`: defines the package metadata (e.g., name, description, and author).
+- `tests/conftest.py`: specifies the location of the plugin script.
 
-# Open Source Libraries
-This project has utilised the lovely work of `crs4's` rocrate-validator to validate all of the plugins RO-Crate objects, here is the link to their repository https://github.com/crs4/rocrate-validator/. Please keep in mind that currently we are using a git submodule for the rocrate-validator - this will eventually be changed to use their pip installation. It also utilises the work of ResearchObject to create and consume RO-Crate objects here is the link to their repository: https://github.com/ResearchObject/ro-crate-py.
+### Open Source Libraries
+The RO-Crate Plugin leverages the excellent work of the following open-source projects:
+1. [crs4/rocrate-validator](https://github.com/crs4/rocrate-validator/)
+   Used to validate all RO-Crate objects in this plugin. (Currently integrated as a Git submodule but will switch to a pip installation in the future.)
+2. [ResearchObject/ro-crate-py](https://github.com/ResearchObject/ro-crate-py)
+   A library for creating and consuming RO-Crate objects.
+
+## Contributing 
+If you’d like to contribute, please:
+1. Fork the repository.
+2. Create a new branch for your feature or fix.
+3. Submit a pull request with detailed descriptions of your changes.
+
+## Future Development
+We are actively working on integrating this plugin with Stencila’s VS Code extension. Stay tuned for updates!
